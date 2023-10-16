@@ -51,7 +51,7 @@ EOF
 ## config
 adding custom pairs for other languages is simple 
 the syntax for the table is
-```
+```lua
 '.*(.*)',{'{',          '}'},
 regex   ,{openning pair,closing pair}
 string    string        string
