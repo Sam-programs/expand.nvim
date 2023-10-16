@@ -118,5 +118,6 @@ require('expand').setup({
 })
 ```
 ## plans
-add a treesitter check to auto add comas in for lua tables inside lua tables
+add a treesitter check to auto add comas in for lua tables inside lua tables  
 allow the functions to return pairs
+add tests
