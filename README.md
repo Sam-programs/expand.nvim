@@ -1,9 +1,9 @@
 # expand.nvim
 a plugin that allows u to quickly expand statements
 # demo 
-```
-| is the cursor
-in c 
+```c
+// | is the cursor
+// in c 
 if (true|)  C-Space
 
 if (true){
@@ -15,8 +15,9 @@ typedef struct foo |
 typedef struct foo {
     |
 };
-
-in lua
+```
+```lua
+-- in lua
 if something| C-Space
 
 if something then
