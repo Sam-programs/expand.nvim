@@ -120,5 +120,7 @@ require('expand').setup({
 ```
 ## plans
 add a treesitter check to auto add comas in for lua tables inside lua tables  
-allow the functions to return pairs
-add tests
+allow the functions to return pairs   
+## done
+add tests 
+I MADE A WHOLE FREAKING KEYMAP TESTING FRAMEWORK FOR THIS (kind of)

@@ -5,38 +5,38 @@ local default = {
    filetypes = {
       lua = {
          -- if we are expaning on an unnamed function might aswell add the pairs
-         { 'function\\s*$',                     { '()', 'end' } },
+         { 'function\\s*$',                { '()', 'end' } },
          { 'function',                     { '', 'end' } },
          { 'if',                           { ' then', 'end' } },
          -- regex for a lua variable
          { '^\\s*\\w\\+\\s*\\w*\\s*=\\s*', { '{', '}' } },
-         { '',                      { ' do', 'end' } },
+         { '',                             { ' do', 'end' } },
       },
       sh = {
-         { 'elif',    { ' then', '' } },
-         { 'if',      { ' then', 'if' } },
-         { 'case',    { '', 'esac' } },
-         { '', { ' do', 'done' } },
+         { 'elif', { ' then', '' } },
+         { 'if',   { ' then', 'if' } },
+         { 'case', { '', 'esac' } },
+         { '',     { ' do', 'done' } },
       },
       bash = {
-         { 'elif',    { ' then', '' } },
-         { 'if',      { ' then', 'if' } },
-         { 'case',    { '', 'esac' } },
-         { '', { ' do', 'done' } },
+         { 'elif', { ' then', '' } },
+         { 'if',   { ' then', 'if' } },
+         { 'case', { '', 'esac' } },
+         { '',     { ' do', 'done' } },
       },
       zsh = {
-         { 'elif',    { ' then', '' } },
-         { 'if',      { ' then', 'if' } },
-         { 'case',    { '', 'esac' } },
-         { '', { ' do', 'done' } },
+         { 'elif', { ' then', '' } },
+         { 'if',   { ' then', 'if' } },
+         { 'case', { '', 'esac' } },
+         { '',     { ' do', 'done' } },
       },
       c = {
-         { '.*(.*)',  { '{', '}' } },
-         { '', { '{', '};' } },
+         { '.*(.*)', { '{', '}' } },
+         { '',       { '{', '};' } },
       },
       cpp = {
-         { '.*(.*)',  { '{', '}' } },
-         { '', { '{', '};' } },
+         { '.*(.*)', { '{', '}' } },
+         { '',       { '{', '};' } },
       },
    },
    hotkey = '<C-Space>',
@@ -64,7 +64,7 @@ M.setup = function(opts)
       return
    end
 
-   M.config = vim.tbl_deep_extend("force",default, opts or {})
+   M.config = vim.tbl_deep_extend("force", default, opts or {})
    vim.keymap.set('i', M.config.hotkey, function()
       local pair_open, pair_close = '{', '}'
 
@@ -90,21 +90,29 @@ M.setup = function(opts)
                   break
                end
             else
-               print(checks[i][MATCH],"has an invalid match type (not a function or a string)")
+               print(checks[i][MATCH], "has an invalid match type (not a function or a string)")
             end
          end
          if not success and #checks ~= 0 then
-            pair_open,pair_close = unpack(checks[#checks][PAIRS])
+            pair_open, pair_close = unpack(checks[#checks][PAIRS])
          end
       end
       indent.enable_ctrl_f_formatting()
-      vim.api.nvim_feedkeys(
-         esc('<C-g>u' .. '<end>' ..
-            pair_open .. '<cr><cr>' ..
-            pair_close .. '<C-f><up><C-f>' ..
-            '<cmd>lua require(\'indent\').restore_user_configuration()' ..
-            ' vim.o.magic = OLD_magic<cr>'),
-         'n', false)
+      local keys = esc('<C-g>u' .. '<end>' ..
+         pair_open .. '<cr><cr>' ..
+         pair_close .. '<C-f><up><C-f>' ..
+         '<cmd>lua require(\'indent\').restore_user_configuration()' ..
+         ' vim.o.magic = OLD_magic<cr>')
+      if __EXPAND_IS_TESTING then
+         -- tests loads every test into the typeahead bufer at once
+         -- because i couldn't find a way to flush it
+         -- which makes us need to keep placing the pairs before the tests with i
+         -- we also need to redraw to to allow future expantions to detect us (custom)
+         -- this already happens in the normal case
+         vim.api.nvim_feedkeys(keys .. esc('<cmd>redraw<cr>'), 'i', false)
+         return
+      end
+      vim.api.nvim_feedkeys(keys, 'n', false)
    end)
 end
 
