@@ -34,7 +34,7 @@ packer
 ```lua
 use {
     "Sam-programs/expand.nvim",
-    requires = { 'Sam-Programs/indent.nvim' } 
+    requires = { 'Sam-Programs/indent.nvim' }, 
     config = function() require("expand").setup {} end
 }
 ```
