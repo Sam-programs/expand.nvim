@@ -101,7 +101,7 @@ M.setup = function(opts)
          pair_open .. '<cr><cr>' ..
          pair_close .. '<C-f><up><C-f>' ..
          '<cmd>lua require(\'indent\').restore_user_configuration()' ..
-         ' vim.o.magic = ' .. (old_magic or "true" and "false") .. 'OLD_magic<cr>')
+         ' vim.o.magic = ' .. (old_magic and "true" or "false") .. 'OLD_magic<cr>')
       if __EXPAND_IS_TESTING then
          -- tests loads every test into the typeahead bufer at once
          -- because i couldn't find a way to flush it
