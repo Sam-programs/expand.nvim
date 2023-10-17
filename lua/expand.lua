@@ -9,7 +9,7 @@ local default = {
          { 'function',                     { '', 'end' } },
          { 'if',                           { ' then', 'end' } },
          -- regex for a lua variable
-         { '^\\s*\\w\\+\\s*\\w*\\s*=\\s*', { '{', '}' } },
+         { '^\\s*\\w\\+\\s*\\w*\\s*=\\s*$', { '{', '}' } },
          { '',                             { ' do', 'end' } },
       },
       sh = {

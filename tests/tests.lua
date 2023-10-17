@@ -16,3 +16,6 @@ Test("function foo()<C-space>", "function foo()\n\nend", "function", "lua")
 Test("function foo() <C-space>", "function foo() \n\nend", "function with spaces", "lua")
 Test("function<C-space>", "function()\n\nend", "empty function", "lua")
 Test("function <C-space>", "function ()\n\nend", "empty function with spaces", "lua")
+
+-- should fail
+Test("function<C-space>", "function\n\nend", "should fail didn't add () pairs", "lua")

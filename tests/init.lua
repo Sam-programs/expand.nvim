@@ -5,7 +5,6 @@ require('expand').setup {}
 -- no indenting we just want to make sure the pairs are matching the right patterns
 vim.o.indentexpr = '0'
 
-local unpack = unpack or table.unpack
 local function esc(str)
    return vim.api.nvim_replace_termcodes(str, true, false, true)
 end
@@ -16,6 +15,7 @@ end
 
 local test_count = 0
 function Handler_lines(keys,expect, err)
+   test_count = test_count + 1
    --redraw to update the buffer for nvim_buf_get_lines to get updated text
    expect = vim.split(expect, '\n')
    vim.cmd('redraw')
@@ -48,7 +48,6 @@ function Handler_lines(keys,expect, err)
 end
 
 function Test(keys, expect, err, filetype)
-   test_count = test_count + 1
    local it = vim.gsplit(expect, '\n')
 
    -- we manaully escape them for the lua command to not treat them like code end of lines
@@ -61,6 +60,7 @@ function Test(keys, expect, err, filetype)
    -- set the filetype
    vim.api.nvim_feedkeys(esc("<cmd>set filetype=" .. filetype .. "<cr>" .. keys .. "<cmd>") .. "lua " ..
       "Handler_lines(\""..  keys .. "\",\"" .. expect .. "\",\"" .. err .. "\") " ..
+      -- clear the buffer for other tests
       esc("<cr><cmd>%d<cr>"), "m", false)
 end
 
