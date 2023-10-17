@@ -69,9 +69,8 @@ M.setup = function(opts)
       local pair_open, pair_close = '{', '}'
 
       local checks = M.config.filetypes[vim.o.filetype]
+      local old_magic = vim.o.magic
       if checks then
-         OLD_magic = vim.o.magic
-         vim.o.magic = OLD_magic
          local line = vim.api.nvim_get_current_line()
          local success = false
          for i = 1, #checks - 1, 1 do
@@ -102,7 +101,7 @@ M.setup = function(opts)
          pair_open .. '<cr><cr>' ..
          pair_close .. '<C-f><up><C-f>' ..
          '<cmd>lua require(\'indent\').restore_user_configuration()' ..
-         ' vim.o.magic = OLD_magic<cr>')
+         ' vim.o.magic = ' .. (old_magic or "true" and "false") .. 'OLD_magic<cr>')
       if __EXPAND_IS_TESTING then
          -- tests loads every test into the typeahead bufer at once
          -- because i couldn't find a way to flush it

@@ -18,4 +18,6 @@ Test("function<C-space>", "function()\n\nend", "empty function", "lua")
 Test("function <C-space>", "function ()\n\nend", "empty function with spaces", "lua")
 
 -- should fail
-Test("function<C-space>", "function\n\nend", "should fail didn't add () pairs", "lua")
+Test("functio()<C-space>", "function()\n\nend", "should fail typo", "lua")
+
+-- weirdly running 20000 tests only takes around 20 seconds and most of the time is used loading the tests

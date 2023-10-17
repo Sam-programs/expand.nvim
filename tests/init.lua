@@ -49,11 +49,10 @@ end
 
 function Test(keys, expect, err, filetype)
    local it = vim.gsplit(expect, '\n')
-
-   -- we manaully escape them for the lua command to not treat them like code end of lines
    -- don't add an extra \n for the first line
    local formatted = it()
    for s in it do
+      -- we manaully escape them for the lua command to not treat them like code end of lines
       formatted = formatted .. '\\n' .. s
    end
    expect = formatted
