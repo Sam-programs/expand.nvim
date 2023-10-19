@@ -21,7 +21,7 @@ typedef struct foo {
 if something| C-Space
 
 if something then
-|
+   |
 end
 
 local myvar = | C-space
