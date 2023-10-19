@@ -4,7 +4,7 @@ local PAIRS = 2
 local default = {
    filetypes = {
       lua = {
-         -- if we are expaning on an unnamed function might aswell add the pairs
+         -- if we are expanding on an unnamed function might aswell add the pairs
          { 'function\\s*$',                { '()', 'end' } },
          { 'function',                     { '', 'end' } },
          { 'if',                           { ' then', 'end' } },
@@ -13,22 +13,28 @@ local default = {
          { '',                             { ' do', 'end' } },
       },
       sh = {
-         { 'elif', { ' then', '' } },
-         { 'if',   { ' then', 'if' } },
+         { 'elif', { ' ;then', '' } },
+         { 'if',   { ' ;then', 'if' } },
          { 'case', { '', 'esac' } },
-         { '',     { ' do', 'done' } },
+         { 'while',     { ' do', 'done' } },
+         { 'for',     { ' do', 'done' } },
+         { '',     { '{', '}' } },
       },
       bash = {
-         { 'elif', { ' then', '' } },
-         { 'if',   { ' then', 'if' } },
+         { 'elif', { ' ;then', '' } },
+         { 'if',   { ' ;then', 'if' } },
          { 'case', { '', 'esac' } },
-         { '',     { ' do', 'done' } },
+         { 'while',     { ' do', 'done' } },
+         { 'for',     { ' do', 'done' } },
+         { '',     { '{', '}' } },
       },
       zsh = {
          { 'elif', { ' then', '' } },
          { 'if',   { ' then', 'if' } },
          { 'case', { '', 'esac' } },
-         { '',     { ' do', 'done' } },
+         { 'while',     { ' do', 'done' } },
+         { 'for',     { ' do', 'done' } },
+         { '',     { '{', '}' } },
       },
       c = {
          { '.*(.*)', { '{', '}' } },
@@ -75,20 +81,25 @@ M.setup = function(opts)
          local success = false
          for i = 1, #checks - 1, 1 do
             if type(checks[i][MATCH]) == 'function' then
-               if checks[i][MATCH]() then
+               local return_value,closing_pair = checks[i][MATCH]()
+               if type(return_value) == 'boolean' and return_value then
                   pair_open, pair_close = unpack(checks[i][PAIRS])
                   success = true
                   break
                end
-            end
-            if type(checks[i][MATCH]) == 'string' then
+               if type(return_value) == 'string' then
+                  pair_open,pair_close = return_value,closing_pair
+                  success = true
+                  break;
+               end
+            elseif type(checks[i][MATCH]) == 'string' then
                vim.o.magic = true
                if match(line, checks[i][MATCH]) then
                   pair_open, pair_close = unpack(checks[i][PAIRS])
                   success = true
                   break
                end
-            else
+            else 
                print(checks[i][MATCH], "has an invalid match type (not a function or a string)")
             end
          end

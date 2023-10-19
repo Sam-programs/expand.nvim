@@ -61,8 +61,18 @@ note the pairs can be keys and the regex is vim `Pattern`
 the pattern is matched against the current line
 the plugin makes sure 'magic' is set while checking pairs
 
-alternatively you can use a function to evaluate wether to expand the pair or not
+alternatively you can use a function to evaluate wether to choose the pair or not
 which returns true if the pair should be chosen and false or nil(nothing) otherwise
+
+or a function that returns two strings which are the openning pair and closing pair and nil if we shouldn't choose it's pair
+```lua
+function()
+   if something then
+      return '{','},'
+   end
+   -- lua automatically returns nil here
+end
+```
 
 the table for languages is like a fallback table
 ```lua
