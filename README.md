@@ -90,39 +90,45 @@ if there is no custom pair(s) for a filetype the plugin defaults to {}
 require('expand').setup({
    filetypes = {
       lua = {
-         -- if we are expaning on an unnamed function might aswell add the pairs
-         { 'function\\s*$',                     { '()', 'end' } },
+         -- if we are expanding on an unnamed function might aswell add the pairs
+         { 'function\\s*$',                { '()', 'end' } },
          { 'function',                     { '', 'end' } },
          { 'if',                           { ' then', 'end' } },
          -- regex for a lua variable
-         { '^\\s*\\w\\+\\s*\\w*\\s*=\\s*', { '{', '}' } },
-         { 'this is not checked',                      { ' do', 'end' } },
+         { '^\\s*\\w\\+\\s*\\w*\\s*=\\s*$', { '{', '}' } },
+         { '',                             { ' do', 'end' } },
       },
       sh = {
-         { 'elif',    { ' then', '' } },
-         { 'if',      { ' then', 'if' } },
-         { 'case',    { '', 'esac' } },
-         { '', { ' do', 'done' } },
+         { 'elif', { ' ;then', '' } },
+         { 'if',   { ' ;then', 'if' } },
+         { 'case', { '', 'esac' } },
+         { 'while',     { ' do', 'done' } },
+         { 'for',     { ' do', 'done' } },
+         { '',     { '{', '}' } },
       },
       bash = {
-         { 'elif',    { ' then', '' } },
-         { 'if',      { ' then', 'if' } },
-         { 'case',    { '', 'esac' } },
-         { '', { ' do', 'done' } },
+         { 'elif', { ' ;then', '' } },
+         { 'if',   { ' ;then', 'if' } },
+         { 'case', { '', 'esac' } },
+         { 'while',     { ' do', 'done' } },
+         { 'for',     { ' do', 'done' } },
+         { '',     { '{', '}' } },
       },
       zsh = {
-         { 'elif',    { ' then', '' } },
-         { 'if',      { ' then', 'if' } },
-         { 'case',    { '', 'esac' } },
-         { '', { ' do', 'done' } },
+         { 'elif', { ' then', '' } },
+         { 'if',   { ' then', 'if' } },
+         { 'case', { '', 'esac' } },
+         { 'while',     { ' do', 'done' } },
+         { 'for',     { ' do', 'done' } },
+         { '',     { '{', '}' } },
       },
       c = {
-         { '.*(.*)',  { '{', '}' } },
-         { '', { '{', '};' } },
+         { '.*(.*)', { '{', '}' } },
+         { '',       { '{', '};' } },
       },
       cpp = {
-         { '.*(.*)',  { '{', '}' } },
-         { '', { '{', '};' } },
+         { '.*(.*)', { '{', '}' } },
+         { '',       { '{', '};' } },
       },
    },
    hotkey = '<C-Space>',
@@ -130,7 +136,7 @@ require('expand').setup({
 ```
 ## plans
 add a treesitter check to auto add comas in for lua tables inside lua tables  
-allow the functions to return pairs   
 ## done
+allow the functions to return pairs   
 add tests 
 I MADE A WHOLE FREAKING KEYMAP TESTING FRAMEWORK FOR THIS (kind of)
