@@ -1,5 +1,4 @@
 local Test = Test or print
--- cpp
 Test("if()<left><C-space>", "if(){\n\n}", "if statement", "cpp")
 Test("if()<left><C-space>if()<left><C-space>", "if(){\nif(){\n\n}\n}", "double if statement", "cpp")
 

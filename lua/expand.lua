@@ -108,7 +108,7 @@ M.setup = function(opts)
          end
       end
       indent.enable_ctrl_f_formatting()
-      local keys = esc('<C-g>u' .. '<end>' ..
+      local keys = esc('<C-g>u <bs>' .. '<end>' ..
          pair_open .. '<cr><cr>' ..
          pair_close .. '<C-f><up><C-f>' ..
          '<cmd>lua require(\'indent\').restore_user_configuration()' ..
