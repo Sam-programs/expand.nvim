@@ -113,7 +113,7 @@ M.setup = function(opts)
       indent.enable_ctrl_f_formatting()
       local keys = esc('<C-g>u<space><bs>' .. '<end>' ..
          pair_open .. '<cr><cr>' ..
-         pair_close .. '<C-f><up><C-f><C-g>u<space><bs>' ..
+         pair_close .. '<C-f><up><C-f><C-g>u' ..
          '<cmd>lua require(\'indent\').restore_user_configuration()' ..
          ' vim.o.magic = ' .. (old_magic and "true" or "false") .. 'OLD_magic<cr>')
       if __EXPAND_IS_TESTING then
