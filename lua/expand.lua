@@ -3,6 +3,9 @@ local PAIRS = 2
 
 local default = {
    filetypes = {
+      python = {
+         { '',     { ':', '' } },
+      },
       lua = {
          -- if we are expanding on an unnamed function might aswell add the pairs
          { 'function\\s*$',                { '()', 'end' } },
@@ -108,9 +111,9 @@ M.setup = function(opts)
          end
       end
       indent.enable_ctrl_f_formatting()
-      local keys = esc('<C-g>u <bs>' .. '<end>' ..
+      local keys = esc('<C-g>u<space><bs>' .. '<end>' ..
          pair_open .. '<cr><cr>' ..
-         pair_close .. '<C-f><up><C-f>' ..
+         pair_close .. '<C-f><up><C-f><C-g>u<space><bs>' ..
          '<cmd>lua require(\'indent\').restore_user_configuration()' ..
          ' vim.o.magic = ' .. (old_magic and "true" or "false") .. 'OLD_magic<cr>')
       if __EXPAND_IS_TESTING then
