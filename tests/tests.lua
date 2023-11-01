@@ -1,6 +1,8 @@
-local Test = Test or print
+---@diagnostic disable-next-line: undefined-global
+local Test = Test
 Test("if()<left><C-space>", "if(){\n\n}", "if statement", "cpp")
 Test("if()<left><C-space>if()<left><C-space>", "if(){\nif(){\n\n}\n}", "double if statement", "cpp")
+Test("if<C-space>", "if", "should do nothing", "cpp")
 
 Test("struct foo<C-space>", "struct foo{\n\n};", "struct", "cpp")
 Test("class foo<C-space>", "class foo{\n\n};", "class", "cpp")
@@ -16,7 +18,13 @@ Test("function foo() <C-space>", "function foo() \n\nend", "function with spaces
 Test("function<C-space>", "function()\n\nend", "empty function", "lua")
 Test("function <C-space>", "function ()\n\nend", "empty function with spaces", "lua")
 
+-- python
+Test("if<C-Space>", "if:\n", "python if check", "python")
+Test("def foo()<left><C-Space>", "def foo():\n", "python function check", "python")
+
+
 -- should fail
 Test("functio()<C-space>", "function()\n\nend", "should fail typo", "lua")
+
 
 -- weirdly running 20000 tests only takes around 20 seconds and most of the time is used loading the tests

@@ -16,8 +16,8 @@ end
 local test_count = 0
 function Handler_lines(keys,expect, err)
    test_count = test_count + 1
-   --redraw to update the buffer for nvim_buf_get_lines to get updated text
    expect = vim.split(expect, '\n')
+   --redraw to update the buffer for nvim_buf_get_lines to get updated text
    vim.cmd('redraw')
    local lines = vim.api.nvim_buf_get_lines(0,0,-1, false)
    for i, line in pairs(expect) do
