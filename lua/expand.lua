@@ -184,7 +184,7 @@ M.setup = function(opts)
                   print('attemped to wrap pairs between a functional rule')
                   return
                end
-               local line = vim.api.nvim_get_current_line(0)
+               local line = vim.api.nvim_get_current_line()
                local mbegin = vim.fn.match(line, chosen_rule[MATCH])
                -- anyone has a better way to find the end pos of the match?
                local mend = mbegin + #vim.fn.matchstr(line, chosen_rule[MATCH], mbegin)
