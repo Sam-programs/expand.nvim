@@ -29,17 +29,10 @@ local default = {
       c = {
          { '.*(.*)',             { '{', '}' } },
          { 'struct',             { '{', '};' } },
-         -- variable regex
-         { '[a-z1-9]\\s*=\\s*$', { '{', '};' } },
-         { '',                   { '', '' }, { do_nothing = true } },
       },
       cpp = {
          { '.*(.*)',             { '{', '}' } },
          { 'class',              { '{', '};' } },
-         { '[a-z1-9]\\s*=\\s*$', { '{', '};' } },
-         { 'struct',             { '{', '};' } },
-         -- variable regex
-         { '',                   { '', '' }, { do_nothing = true } },
       },
    },
    hotkey = '<C-Space>',
