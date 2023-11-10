@@ -3,7 +3,7 @@ local PAIRS = 2
 local OPT = 3
 local sh_rules = {
    { 'elif',  { ' ;then', '' },  { endpair_new_line = false } },
-   { 'if',    { ' ;then', 'if' } },
+   { 'if',    { ' ;then', 'fi' } },
    { 'case',  { '', 'esac' } },
    { 'while', { ' do', 'done' } },
    { 'for',   { ' do', 'done' } },
