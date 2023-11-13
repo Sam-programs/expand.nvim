@@ -1,69 +1,39 @@
--- i recommend you don't check this file
--- it's a mess
-require('expand').setup {}
+-- init.lua
+-- if u are using lazy
+local lazypath = vim.fn.stdpath('data') .. '/lazy/'
+vim.o.rtp = 
+lazypath .. 'keymap-tester.nvim' .. ',' ..
+lazypath .. 'expand.nvim' .. ',' ..
+lazypath .. 'indent.nvim'
 
--- no indenting we just want to make sure the pairs are matching the right patterns
+-- if u don't turn off indenting you'ill have to add the extra spaces to the tests
 vim.o.indentexpr = '0'
-
-local function esc(str)
-   return vim.api.nvim_replace_termcodes(str, true, false, true)
+require('expand').setup{}
+local ok,Test = pcall(require('keymap-tester'))
+if not ok then
+   print('keymap-tester.nvim is required for testing expand.nvim')
+   print('https://github.com/Sam-programs/keymap-tester.nvim')
+   vim.cmd('q!')
 end
 
-function Exit()
-   vim.api.nvim_feedkeys(esc("<cmd>quit!<cr>"), "m", false)
-end
+Test("if()<left><C-space>", "if(){\n\n}", "if statement", "cpp")
+Test("if()<left><C-space>if()<left><C-space>", "if(){\nif(){\n\n}\n}", "double if statement", "cpp")
 
-local test_count = 0
-function Handler_lines(keys,expect, err)
-   test_count = test_count + 1
-   --redraw to update the buffer for nvim_buf_get_lines to get updated text
-   expect = vim.split(expect, '\n')
-   vim.cmd('redraw')
-   local lines = vim.api.nvim_buf_get_lines(0,0,-1, false)
-   for i, line in pairs(expect) do
-      if line ~= lines[i] or #lines ~= #expect then
-         print('\n' .. vim.o.filetype.. ':',err .. ' failed\n')
-         print('keys:',"\"".. keys .. "\"")
-         print('expected:\n')
-         for _, expected_line in pairs(expect) do
-            if expected_line == '' then
-               print('\n')
-            else
-               print(expected_line)
-            end
-         end
-         print('\ngot:')
-         for _, real_line in pairs(lines) do
-            if real_line == '' then
-               print('\n')
-            else
-               print(real_line)
-            end
-         end
-         print('\n')
-         return
-      end
-   end
-   print(vim.o.filetype.. ':',err,'passed','#',test_count,'\n')
-end
+Test("struct foo<C-space>", "struct foo{\n\n};", "struct", "cpp")
+Test("class foo<C-space>", "class foo{\n\n};", "class", "cpp")
 
-function Test(keys, expect, err, filetype)
-   local it = vim.gsplit(expect, '\n')
-   -- don't add an extra \n for the first line
-   local formatted = it()
-   for s in it do
-      -- we manaully escape them for the lua command to not treat them like code end of lines
-      formatted = formatted .. '\\n' .. s
-   end
-   expect = formatted
-   -- set the filetype
-   vim.api.nvim_feedkeys(esc("<cmd>set filetype=" .. filetype .. "<cr>" .. keys .. "<cmd>") .. "lua " ..
-      "Handler_lines(\""..  keys .. "\",\"" .. expect .. "\",\"" .. err .. "\") " ..
-      -- clear the buffer for other tests
-      esc("<cr><cmd>%d<cr>"), "m", false)
-end
+Test("void foo()<left><C-space>", "void foo(){\n\n}", "function", "cpp")
 
-vim.cmd("startinsert")
-__EXPAND_IS_TESTING = true
-vim.cmd("so tests.lua")
-Exit() -- adds a quit to the end of the typeahead buffer 
+-- lua
+Test("if true<C-space>", "if true then\n\nend", "if statement", "lua")
+Test("if true<C-space>if true<C-Space>", "if true then\nif true then\n\nend\nend", "double if statement", "lua")
+
+Test("function foo()<C-space>", "function foo()\n\nend", "function", "lua")
+Test("function foo() <C-space>", "function foo() \n\nend", "function with spaces", "lua")
+Test("function<C-space>", "function()\n\nend", "empty function", "lua")
+Test("function <C-space>", "function ()\n\nend", "empty function with spaces", "lua")
+
+-- should fail
+Test("functio()<C-space>", "function()\n\nend", "should fail typo", "lua")
+
+vim.cmd('q!')

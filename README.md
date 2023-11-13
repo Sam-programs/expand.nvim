@@ -134,6 +134,12 @@ require('expand').setup({
    hotkey = '<C-Space>',
 })
 ```
+## testing
+to test the plugin make sure u have expand setup correctly and [keymap-tester](https://github.com/Sam-programs/keymap-tester.nvim)
+then cd to the tests directory and run make
+```
+cd tests && make
+```
 ## plans
 add a treesitter check to auto add comas in for lua tables inside lua tables  
 ## done

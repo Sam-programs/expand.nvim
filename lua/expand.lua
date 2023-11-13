@@ -126,15 +126,6 @@ M.setup = function(opts)
          ' vim.o.magic = ' .. (old_magic and "true" or "false") .. 'OLD_magic<cr>')
       indent.enable_ctrl_f_formatting()
       ---@diagnostic disable-next-line: undefined-global
-      if __EXPAND_IS_TESTING then
-         -- tests loads every test into the typeahead bufer at once
-         -- because i couldn't find a way to flush it
-         -- which makes us need to keep placing the pairs before the tests with i
-         -- we also need to redraw to to allow future expantions to detect us (custom)
-         -- this already happens in the normal case
-         vim.api.nvim_feedkeys(keys .. esc('<cmd>redraw<cr>'), 'i', false)
-         return
-      end
       vim.api.nvim_feedkeys(keys, 'n', false)
    end)
 end
