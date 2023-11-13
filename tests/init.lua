@@ -9,7 +9,7 @@ lazypath .. 'indent.nvim'
 -- if u don't turn off indenting you'ill have to add the extra spaces to the tests
 vim.o.indentexpr = '0'
 require('expand').setup{}
-local ok,Test = pcall(require('keymap-tester'))
+local ok,Test = pcall(require,'keymap-tester')
 if not ok then
    print('keymap-tester.nvim is required for testing expand.nvim')
    print('https://github.com/Sam-programs/keymap-tester.nvim')
