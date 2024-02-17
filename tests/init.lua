@@ -18,6 +18,7 @@ end
 
 Test("if()<left><C-space>", "if(){\n\n}", "if statement", "cpp")
 Test("if()<left><C-space>if()<left><C-space>", "if(){\nif(){\n\n}\n}", "double if statement", "cpp")
+Test("int a = <C-space>","int a = {\n\n};","variable expanding","cpp")
 
 Test("struct foo<C-space>", "struct foo{\n\n};", "struct", "cpp")
 Test("class foo<C-space>", "class foo{\n\n};", "class", "cpp")
@@ -32,8 +33,9 @@ Test("function foo()<C-space>", "function foo()\n\nend", "function", "lua")
 Test("function foo() <C-space>", "function foo() \n\nend", "function with spaces", "lua")
 Test("function<C-space>", "function()\n\nend", "empty function", "lua")
 Test("function <C-space>", "function ()\n\nend", "empty function with spaces", "lua")
-
--- should fail
-Test("functio()<C-space>", "function()\n\nend", "should fail typo", "lua")
+Test("local foo = <C-space>", "local foo = {\n\n}", "local variables", "lua")
+Test("foo = <C-space>", "foo = {\n\n}", "global variables", "lua")
+Test("M.foo = <C-space>", "M.foo = {\n\n}", "table variables", "lua")
+Test("M.foo.bar = <C-space>", "M.foo.bar = {\n\n}", "2 table variables", "lua")
 
 vim.cmd('q!')
