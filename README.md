@@ -85,7 +85,7 @@ regex   ,function, {Options}
 string   function 
 function  
 ```
-You can look at [the default configuration](default-config) for examples.
+You can look at [the default configuration](#default-config) for examples.
 
 <details>
 <summary>Options</summary>
@@ -131,6 +131,7 @@ config = {
     },
 }
 ```
+You can call setup with a different key to define another mapping with different rules.
 ## default config
 ```lua
 local sh_rules = {
