@@ -98,7 +98,7 @@ lua_pattern -- use :h lua-patterns instead of :h Pattern
 ```
 </details>
 
-The pairs are unmapped keys and 'regex' is vim `Pattern` unless the lua_pattern option is true, the pattern is matched against the current line, the plugin makes sure 'magic' is set while matching pairs
+The pairs are unmapped keys and 'regex' is vim `Pattern` unless the lua_pattern option is true, the pattern is matched against the current line and 'magic' is set while matching.
 'regex' can also be a function instead.
 
 You can also use a function instead of pairs:
@@ -120,7 +120,7 @@ The table for filetype is like a fallback table:
 ```
 The final item in the list is used as a fallback if all other matches fail.
 
-If there is no custom pair(s) for a filetype the plugin defaults to `default_rule`, there is also a `default_options` key which is used on all rules that don't have a value for an option.
+If there are no rules for a filetype the plugin defaults to `default_rule`, there is also a `default_options` key which is used on all rules that don't have a value for an option.
 ```lua
 config = {
     default_rule = {
